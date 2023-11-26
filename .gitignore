@@ -1,0 +1,28 @@
+# course config files
+*.yaml
+
+# gradle
+.gradle/
+build
+
+
+# idea config
+.idea
+
+# old stages
+/Simple Tic-Tac-Toe (Java)/*
+!/Simple Tic-Tac-Toe (Java)/task/
+/Simple Tic-Tac-Toe (Java)/task/*
+!/Simple Tic-Tac-Toe (Java)/task/src
+
+# Project exclude paths
+/Topics/Break and continue. Branching/Even or odd/out/
+/Topics/Break and continue. Branching/Even or odd/out/production/classes/
+/Topics/Iterating over arrays/The index of the first max in an array/out/
+/Topics/Iterating over arrays/The index of the first max in an array/out/production/classes/
+/Topics/Iterating over arrays/The maximum product of adjacent elements/out/
+/Topics/Iterating over arrays/The maximum product of adjacent elements/out/production/classes/
+/Topics/Iterating over arrays/Two numbers never occur next to each other/out/
+/Topics/Iterating over arrays/Two numbers never occur next to each other/out/production/classes/
+/Topics/Multidimensional array/Rotate a rectangle array/out/
+/Topics/Multidimensional array/Rotate a rectangle array/out/production/classes/
