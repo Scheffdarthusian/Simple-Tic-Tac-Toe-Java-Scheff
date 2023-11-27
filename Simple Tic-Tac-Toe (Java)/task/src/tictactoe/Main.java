@@ -1,3 +1,4 @@
+
 package tictactoe;
 
 import java.util.Scanner;
@@ -5,16 +6,16 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        char[][] board = new char[3][3];
 
         //Initialize the board with empty spaces.
+        char[][] board = new char[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = '_';
             }
         }
 
-        //Print the game board and then place a move.
+        //Print the board. Take players' input and then analyze the game state.
         printBoard(board);
 
         while (true) {
@@ -30,7 +31,7 @@ public class Main {
             }
             printBoard(board);
         }
-        scanner.close();
+        scanner.nextLine();
     }
 
     private static void printBoard(char[][] board) {
@@ -46,109 +47,73 @@ public class Main {
     }
 
     private static void xPlayerTurn(char[][] board, Scanner scanner) {
-        String input;
         while (true) {
-            System.out.println("X player, Place your move: ");
-            input = scanner.nextLine();
-            if (isValidMove(board, input)) {
-                break;
-            } else {
-                System.out.println("Invalid move! Choose another one!");
+            System.out.println("X player, Enter your move: ");
+            try {
+                int row = scanner.nextInt();
+                int col = scanner.nextInt();
+
+                if (isValidMove(row, col, board)) {
+                    board[row - 1][col - 1] = 'X';
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("You should enter numbers!");
+                scanner.nextLine();
             }
         }
-        placeMove(board, input, 'X');
-        printBoard(board);
     }
 
     private static void oPlayerTurn(char[][] board, Scanner scanner) {
-        String input;
         while (true) {
-            System.out.println("O player, Place your move: ");
-            input = scanner.nextLine();
-            if (isValidMove(board, input)) {
-                break;
-            } else {
-                System.out.println("Invalid move! Choose another one!");
+            System.out.println("O player, Enter your move: ");
+            try {
+                int row = scanner.nextInt();
+                int col = scanner.nextInt();
+
+                if (isValidMove(row, col, board)) {
+                    board[row - 1][col - 1] = 'O';
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("You should enter numbers!");
+                scanner.nextLine();
             }
         }
-        placeMove(board, input, 'O');
-        printBoard(board);
     }
 
-    private static boolean isValidMove (char[][] board, String position) {
-        switch(position) {
-            case "1 1":
-                return (board[0][0] == '_');
-            case "1 2":
-                return (board[0][1] == '_');
-            case "1 3":
-                return (board[0][2] == '_');
-            case "2 1":
-                return (board[1][0] == '_');
-            case "2 2":
-                return (board[1][1] == '_');
-            case "2 3":
-                return (board[1][2] == '_');
-            case "3 1":
-                return (board[2][0] == '_');
-            case "3 2":
-                return (board[2][1] == '_');
-            case "3 3":
-                return (board[2][2] == '_');
-            default:
-                return false;
+    private static boolean isValidMove (int row, int col, char[][] board) {
+        if (row < 1 || row > 3 || col < 1 || col > 3) {
+            System.out.println("Coordinates should be from 1 to 3!");
+            return false;
         }
-    }
 
-    private static void placeMove(char[][] board, String position, char symbol) {
-        switch(position) {
-            case "1 1":
-                board[0][0] = symbol;
-                break;
-            case "1 2":
-                board[0][1] = symbol;
-                break;
-            case "1 3":
-                board[0][2] = symbol;
-                break;
-            case "2 1":
-                board[1][0] = symbol;
-                break;
-            case "2 2":
-                board[1][1] = symbol;
-                break;
-            case "2 3":
-                board[1][2] = symbol;
-                break;
-            case "3 1":
-                board[2][0] = symbol;
-                break;
-            case "3 2":
-                board[2][1] = symbol;
-                break;
-            case "3 3":
-                board[2][2] = symbol;
-                break;
-            default:
-                System.out.println("Invalid");
-
+        if (board[row - 1][col - 1] != '_') {
+            System.out.println("This cell is occupied! Choose another one!");
+            return false;
         }
+        return true;
     }
+
 
     // Analyze the game state.
     private static boolean checkState(char[][] board) {
-        if (isSymbolWon(board, 'X')) {
+        // Check if both side have win condition.
+        boolean xWon = isSymbolWon(board, 'X');
+        boolean oWon = isSymbolWon(board, 'O');
+
+        // Check if a side has won and return the result.
+        if (xWon) {
             printBoard(board);
             System.out.println("X wins");
             return true;
         }
-
-        if (isSymbolWon(board, 'O')) {
+        if (oWon) {
             printBoard(board);
             System.out.println("O wins");
             return true;
         }
-
+        // Check if the game is a draw or not finished.
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == '_') {
@@ -157,7 +122,7 @@ public class Main {
             }
         }
         printBoard(board);
-        System.out.println("Ended in a tie");
+        System.out.println("Draw");
         return true;
     }
 
